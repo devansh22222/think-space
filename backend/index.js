@@ -7,10 +7,12 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require('uuid');
+const cookieParser = require('cookie-parser')
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({extended: true}));
+app.use(cookieParser());
 
 
 app.listen(port, ()=>{
@@ -29,7 +31,7 @@ connection.connect((err)=>{
         console.log("Connected to Database")
     }
     else{
-        console.log("Failed to connect to Database")
+        console.log("Failed to connect to Database",err)
     }
 });
 
