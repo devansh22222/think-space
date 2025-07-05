@@ -1,11 +1,16 @@
 import './App.css'
+import Login from './components/Login'
+import Post from './components/Post'
+import SignUp from './components/SignUp'
 
 function App() {
 
 
   return (
     <>
-     <h1>Hello</h1>
+     <SignUp/>
+     <Login/>
+    {/* //  <Post/>  */}
     </>
   )
 }

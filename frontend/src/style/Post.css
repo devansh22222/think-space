@@ -1,0 +1,7 @@
+.post-form-container{
+    height: 30rem;
+    width: 30rem;
+    border: 1px solid black;
+    margin: 0 auto;
+    padding: 10px;
+}
