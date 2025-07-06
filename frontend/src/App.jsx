@@ -1,6 +1,7 @@
 import './App.css'
+import CreatePost from './components/CreatePost'
 import Login from './components/Login'
-import Post from './components/Post'
+
 import SignUp from './components/SignUp'
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
      <SignUp/>
      <Login/>
     {/* //  <Post/>  */}
+    <CreatePost/>
     </>
   )
 }

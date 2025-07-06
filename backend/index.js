@@ -86,22 +86,38 @@ app.post("/api/login", (req,res)=>{
     let q = "SELECT * FROM USERS WHERE EMAIL = ?"
 
     try {
-        connection.query(q, [email], async (err,result)=>{
+        connection.query(q, [email], (err,result)=>{
             if(err){
-                console.log(err)
-            }
-            const user = result[0];
-            const match = await bcrypt.compare(password, user.password)
-
-            if(match){
-                console.log("USer logged In successfully")
+                console.log("ERROR OCCURED", err)
             }
             else{
-                console.log("Wrong credentials")
+                let user = result[0];
+                if(!user){
+                   return res.status(401).send("User Not")
+                }
+                // const match = bcrypt.compare(password, user.password)
+
+                bcrypt.compare(password, user.password).then(match=>{
+                    if(!match){
+                        console.log("Wrong Credential")
+                    }
+                    else{
+                        console.log("User logged in Successfully")
+                }
+                })
+
             }
         })
     } catch (error) {
-        console.log(error)
+        console.log("CATCH ERROR:", error)
     }
-    
 })
+
+
+app.post("/api/createPost", (req,res)=>{
+    let {content} = req.body;
+    console.log(content)
+})
+
+
+
