@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require('uuid');
 const cookieParser = require('cookie-parser')
 
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173", credentials: true}));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
@@ -36,24 +36,6 @@ connection.connect((err)=>{
 });
 
 
-app.get("/posts" , (req,res)=>{
-    // res.send("hello")
-    let q = "SELECT * FROM USERS"
-
-    try {
-        connection.query(q, (err,result)=>{
-            if(err){
-                console.log("Error to Display Thought")
-            }
-            else{
-                console.log("Response sent From DB")
-                return res.status(200).json(result)
-            }
-        })
-    } catch (error) {
-        res.send("ERROR:", error)
-    }
-});
 
 
 // SignUp Route 
@@ -70,7 +52,13 @@ app.post("/api/signup", async (req,res)=>{
             }
             else{
                 console.log("User Created Successfully")
-                res.send("USer created succefully")
+                return res.status(201).json({ message: "Signup successful" ,
+                    user: {
+                        id: id,
+                        name: name
+                    }
+                });
+
             }
         })
     } catch (error) {
@@ -93,16 +81,25 @@ app.post("/api/login", (req,res)=>{
             else{
                 let user = result[0];
                 if(!user){
-                   return res.status(401).send("User Not")
+                   return res.status(401).send("User Not Found")
                 }
                 // const match = bcrypt.compare(password, user.password)
 
                 bcrypt.compare(password, user.password).then(match=>{
                     if(!match){
                         console.log("Wrong Credential")
+                        return res.status(401).send("Invalid Password")
                     }
                     else{
                         console.log("User logged in Successfully")
+                        // sending user data after login
+                        return res.status(201).json({
+                            message: "Login Successful", 
+                            user:{
+                                id: user.id,
+                                name: user.name,
+                                email: user.email
+                            }})
                 }
                 })
 
@@ -115,9 +112,48 @@ app.post("/api/login", (req,res)=>{
 
 
 app.post("/api/createPost", (req,res)=>{
-    let {content} = req.body;
-    console.log(content)
+    let {content, user_id} = req.body;
+    let q = "INSERT INTO THOUGHTS (ID, USER_ID, CONTENT) VALUES (?,?,?)";
+    let id = uuidv4()
+    try {
+        connection.query(q, [id,user_id,content], (err, result)=>{
+            if(err){
+                console.log("Error in inserting Thought:", err);
+                res.status(500).json({message: "Failed to add Thought"})
+            }
+            else{
+                console.log("Data Stored Successfully")
+                res.status(201).json({message: "Thought created successfully"})
+            }
+        })
+    } catch (error) {
+        
+    }
 })
+
+
+app.get("/api/thoughts" , (req,res)=>{
+    // res.send("hello")
+    let q = `SELECT thoughts.content, thoughts.created_at, users.name 
+            FROM thoughts 
+            JOIN users ON thoughts.user_id = users.id
+            ORDER BY thoughts.created_at DESC`;
+
+    try {
+        connection.query(q, (err,result)=>{
+            if(err){
+                console.log("Error to Display Thought")
+                return res.status(500).json({message : "Failed to Fetch Thoughts"});
+            }
+            else{
+                console.log("Response sent From DB")
+                return res.status(200).json(result)
+            }
+        })
+    } catch (error) {
+        res.send("ERROR:", error)
+    }
+});
 
 
 
