@@ -1,0 +1,7 @@
+.thought-card{
+    height: 10rem;
+    width: 30rem;
+    border: 1px solid black;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}

@@ -1,8 +1,12 @@
 import { useState } from "react"
 import "../style/Login.css"
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+
 
 export default function Login(){
+
+    const navigate = useNavigate();
     
     let [loginData, setLoginData] = useState({
         email: "",
@@ -18,7 +22,7 @@ export default function Login(){
         })
     }
 
-    let handleSubmit = (event)=>{
+    let handleSubmit = async (event)=>{
         event.preventDefault();
         console.log(loginData)
         setLoginData({
@@ -27,9 +31,24 @@ export default function Login(){
         })
 
         try {
-            const res = axios.post("http://localhost:3000/api/login", loginData)
+            const res = await axios.post("http://localhost:3000/api/login", loginData);
+            if(res.status === 201){
+
+                // UserId Stored in localStorage and can be used anywhere now. For example see CreatePost page
+                localStorage.setItem("userId", res.data.user.id);
+                localStorage.setItem("userName",  res.data.user.name)
+                navigate("/home")
+            }
+            
+
         } catch (error) {
-            console.log("Invalid Credentials")
+            if(error.response && error.response.status === 401){
+                
+                alert("Invalid Credentials")
+            }
+            else{
+                alert("Something Went Wrong. Please Try Again Later")
+            }
         }
     }
 
@@ -44,6 +63,8 @@ export default function Login(){
                 <input type="text" placeholder="Enter Password" name="password" id="password" value={loginData.password} onChange={handleChange}/>
                 <br />
                 <button onClick={handleSubmit}>Login</button>
+                <Link to="/"><button>New User?</button></Link>
+                
             </form>
         </div>
     )

@@ -1,7 +1,13 @@
 import { useState } from "react"
 import "../style/SignUp.css"
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
+
 export default function SignUp(){
+
+    const navigate = useNavigate();
 
     let [data,setData] = useState({
         name: "",
@@ -20,6 +26,10 @@ export default function SignUp(){
 
     let handleSubmit = async (event)=>{
         event.preventDefault();
+        if (!data.name || !data.email || !data.password) {
+        alert("Please fill all the fields.");
+        return;
+        }
         console.log(data)
         setData({
             name:"",
@@ -28,7 +38,12 @@ export default function SignUp(){
         })
 
         try {
-            const res = axios.post("http://localhost:3000/api/signup",data)
+            const res = await axios.post("http://localhost:3000/api/signup",data);
+            if(res.status === 201){
+                localStorage.setItem("userId", res.data.user.id);
+                localStorage.setItem("userName", res.data.user.name);
+                navigate("/home")
+            }
         } catch (error) {
             console.log(error)
         }
@@ -48,6 +63,7 @@ export default function SignUp(){
                 <input type="password" placeholder="Enter Password" id="password" name="password" value={data.password} onChange={handleChange}/>
                 <br />
                 <button onClick={handleSubmit}>Sign Up</button>
+                <Link to="/login"><button>Already a User?</button></Link>
             </form>
         </div>
         
