@@ -19,7 +19,7 @@ export default function CreatePost(){
         
         // Using userId which stored using Login. For more info go to Login component
         const userId = localStorage.getItem("userId")
-        console.log(userId)
+        // console.log(userId)
         try {
             const res = await axios.post("http://localhost:3000/api/createPost", {content , user_id:userId})
             if(res.status === 201){

@@ -29,6 +29,7 @@ export default function Home(){
         <div>
             <h1>Home Page</h1>
             <h2>Welcome {userName}</h2> 
+            <Link to="/profile" ><button>Profile</button></Link>
             <Link to="/"><button>Logout</button></Link>
             <Link to="/createPost"><button>Create Post</button></Link> 
             <h3>Thought Feed</h3>
