@@ -84,7 +84,6 @@ app.post("/api/login", (req,res)=>{
                    return res.status(401).send("User Not Found")
                 }
                 // const match = bcrypt.compare(password, user.password)
-
                 bcrypt.compare(password, user.password).then(match=>{
                     if(!match){
                         console.log("Wrong Credential")
@@ -114,6 +113,7 @@ app.post("/api/login", (req,res)=>{
 app.post("/api/createPost", (req,res)=>{
     let {content, user_id} = req.body;
     let q = "INSERT INTO THOUGHTS (ID, USER_ID, CONTENT) VALUES (?,?,?)";
+    // this is content id
     let id = uuidv4()
     try {
         connection.query(q, [id,user_id,content], (err, result)=>{
@@ -126,8 +126,8 @@ app.post("/api/createPost", (req,res)=>{
                 res.status(201).json({message: "Thought created successfully"})
             }
         })
-    } catch (error) {
-        
+    } catch (error) { 
+
     }
 })
 
@@ -154,6 +154,31 @@ app.get("/api/thoughts" , (req,res)=>{
         res.send("ERROR:", error)
     }
 });
+
+
+app.get("/api/profile/:userId", (req,res)=>{
+    let {userId} = req.params;
+    let q = `SELECT thoughts.content, thoughts.created_at, users.name 
+            FROM thoughts 
+            JOIN users ON thoughts.user_id = users.id 
+            WHERE users.id = ?`
+
+    try {
+        connection.query(q, [userId], (err, result)=>{
+            console.log(result)
+            if(err){
+                console.log("Failed to fetch Data", err)
+                return res.status(500).json({message:"Failed"})
+            }
+            else{
+                console.log("Your Posts are fetched")
+                return res.status(200).json(result)
+            }
+        } )
+    } catch (error) {
+        console.log("Error: ", error)
+    }
+})
 
 
 
