@@ -109,7 +109,7 @@ app.post("/api/login", (req,res)=>{
     }
 })
 
-
+// To create post -- CreatePost.jsx
 app.post("/api/createPost", (req,res)=>{
     let {content, user_id} = req.body;
     let q = "INSERT INTO THOUGHTS (ID, USER_ID, CONTENT) VALUES (?,?,?)";
@@ -131,7 +131,7 @@ app.post("/api/createPost", (req,res)=>{
     }
 })
 
-
+// Home Page -- Home.jsx
 app.get("/api/thoughts" , (req,res)=>{
     // res.send("hello")
     let q = `SELECT thoughts.content, thoughts.created_at, users.name 
@@ -155,15 +155,15 @@ app.get("/api/thoughts" , (req,res)=>{
     }
 });
 
-
+// particular user posts
 app.get("/api/profile/:userId", (req,res)=>{
     let {userId} = req.params;
-    let q = `SELECT thoughts.content, thoughts.created_at, users.name 
+    let q = `SELECT thoughts.id,thoughts.content, thoughts.created_at, users.name
             FROM thoughts 
             JOIN users ON thoughts.user_id = users.id 
             WHERE users.id = ?`
 
-    try {
+   
         connection.query(q, [userId], (err, result)=>{
             console.log(result)
             if(err){
@@ -175,9 +175,63 @@ app.get("/api/profile/:userId", (req,res)=>{
                 return res.status(200).json(result)
             }
         } )
-    } catch (error) {
-        console.log("Error: ", error)
-    }
+   
+})
+
+// to delete post
+app.post("/api/profile/:id/delete", (req,res)=>{
+    // thought post id from frontend Profile.jsx
+    let {id} = req.params;  
+    let q = "DELETE FROM THOUGHTS  WHERE ID = ?";
+
+    
+        connection.query(q, [id], (err,result)=>{
+            if(err){
+                console.log("Failed to delete");
+                return res.status(500).json({message:"Failed to Delete"});
+            }
+            else{
+                console.log("Post deleted Successfully")
+                return res.status(201).json({message:"Post Deleted Successfully"})
+            }
+        })
+  
+
+})
+
+// API to edit posts 
+app.get("/api/posts/:id", (req,res)=>{
+    let {id} = req.params;
+    let q = "SELECT CONTENT FROM THINK.THOUGHTS  WHERE ID = ?";
+
+    connection.query(q, [id],  (err, result)=>{
+        if(err){
+            console.log("ERROR OCCURED WHILE FETCHING", err);
+        }
+        else{
+            console.log("Content is in the Textbox");
+            res.status(200).json(result[0])
+        }
+    })
+
+})
+
+app.put("/api/posts/:id", (req,res)=>{
+    let {id} = req.params;
+    let {content} = req.body;
+    let q = "UPDATE THINK.THOUGHTs SET CONTENT = ? WHERE ID = ?";
+
+    connection.query(q, [content,id], (err,result)=>{
+        if(err){
+            console.log("Failed to Edit Post", err);
+            res.status(500).json({message: "Failed to edit"})
+        }
+        else{
+            console.log("Post Edited successfully");
+            res.status(200).json({message: "Post updated successfully"})
+        }
+    })
+    
 })
 
 
