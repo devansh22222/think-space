@@ -7,7 +7,8 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require('uuid');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const { use } = require("react");
 
 app.use(cors({ origin: "http://localhost:5173", credentials: true}));
 app.use(express.json());
@@ -134,15 +135,17 @@ app.post("/api/createPost", (req,res)=>{
 // Home Page -- Home.jsx
 app.get("/api/thoughts" , (req,res)=>{
     // res.send("hello")
-    let q = `SELECT thoughts.content, thoughts.created_at, users.name 
+    let q = `SELECT thoughts.id, thoughts.content, thoughts.created_at, users.name, count(likes.id) AS like_count
             FROM thoughts 
             JOIN users ON thoughts.user_id = users.id
+            LEFT JOIN likes ON thoughts.id = likes.thought_id
+            GROUP BY thoughts.id
             ORDER BY thoughts.created_at DESC`;
 
     try {
         connection.query(q, (err,result)=>{
             if(err){
-                console.log("Error to Display Thought")
+                console.log("Error in Displaying Thought")
                 return res.status(500).json({message : "Failed to Fetch Thoughts"});
             }
             else{
@@ -233,6 +236,33 @@ app.put("/api/posts/:id", (req,res)=>{
     })
     
 })
+
+// Likes
+app.post("/api/likes", (req, res) => {
+    const { user_id, thought_id } = req.body;
+
+    const checkQuery = "SELECT * FROM likes WHERE user_id = ? AND thought_id = ?";
+    const insertQuery = "INSERT INTO likes (user_id, thought_id) VALUES (?, ?)";
+    const deleteQuery = "DELETE FROM likes WHERE user_id = ? AND thought_id = ?";
+
+    connection.query(checkQuery, [user_id, thought_id], (err, results) => {
+        if (err) return res.status(500).json({ message: "Check failed", error: err });
+
+        if (results.length > 0) {
+            
+            connection.query(deleteQuery, [user_id, thought_id], (err) => {
+                if (err) return res.status(500).json({ message: "Unlike failed", error: err });
+                return res.status(200).json({ message: "Post unliked" });
+            });
+        } else {
+            
+            connection.query(insertQuery, [user_id, thought_id], (err) => {
+                if (err) return res.status(500).json({ message: "Like failed", error: err });
+                return res.status(201).json({ message: "Post liked" });
+            });
+        }
+    });
+});
 
 
 
