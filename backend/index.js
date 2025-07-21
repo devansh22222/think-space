@@ -8,7 +8,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require('uuid');
 const cookieParser = require('cookie-parser');
-const { use } = require("react");
+
 
 app.use(cors({ origin: "http://localhost:5173", credentials: true}));
 app.use(express.json());
@@ -168,7 +168,6 @@ app.get("/api/profile/:userId", (req,res)=>{
 
    
         connection.query(q, [userId], (err, result)=>{
-            console.log(result)
             if(err){
                 console.log("Failed to fetch Data", err)
                 return res.status(500).json({message:"Failed"})
@@ -190,7 +189,7 @@ app.post("/api/profile/:id/delete", (req,res)=>{
     
         connection.query(q, [id], (err,result)=>{
             if(err){
-                console.log("Failed to delete");
+                console.log("Failed to delete",err);
                 return res.status(500).json({message:"Failed to Delete"});
             }
             else{
