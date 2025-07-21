@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
-import "../style/Home.css"
+import "../style/Profile.css"
 import { Link, Links, useNavigate } from "react-router-dom";
 
 export default function Profile(){
@@ -45,22 +45,28 @@ export default function Profile(){
 
     
     return (
-        <div>
-            <h1>Your Posts</h1>
-            <br />
-            {
-                postToggle ? <Link to="/createPost"><button>Write your first post</button></Link> : null
-            }
-            {thoughts.map((t,index)=>{
-                return <div key={index} className="thought-card">
-                            <p>{t.created_at}</p>
-                            <p>{t.name}</p>
-                            <p>{t.content}</p>
-                            <button onClick={()=>handleDelete(t.id)}>Delete</button>
-                            <button onClick={()=>handleEdit(t.id)}>Edit</button>
-                        </div>
-            })}
-            <Link to="/home"><button>Home</button></Link>
+        <div style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+            <div className="profile-container">
+                <div style={{width:"30%",display:"flex", justifyContent: "space-between", alignItems:"center"}}><h1 style={{textAlign:"center"}}>Your Posts</h1> <Link to={"/home"}> <button>Home</button> </Link></div>
+                <br />
+                
+                {
+                    postToggle ? <Link to="/createPost"><button>Write your first post</button></Link> : null
+                }
+                {thoughts.map((t,index)=>{
+                    return <div key={index} className="profile-thought-cards">
+                                <div style={{display:"flex", justifyContent:"space-between"}}>
+                                    <p style={{fontWeight:"700"}}>{t.name}</p>
+                                    <p>{new Date(t.created_at).toLocaleString()}</p>
+                                </div>
+                                 <hr />
+                                <div style={{height:"8rem"}}>{t.content}</div>
+                                <hr />
+                                <div><button onClick={()=>handleDelete(t.id)}>Delete</button>  <button onClick={()=>handleEdit(t.id)}>Edit</button></div>
+                            </div>
+                })}
+                
+            </div>
         </div>
 
     )

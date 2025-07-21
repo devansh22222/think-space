@@ -17,13 +17,13 @@
 .home-btns{
     height: 100%;
     width: 25rem;
-    border: 1px solid black;
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 
 .thought-card{
+    margin-top: 20px;
     height: 18rem;
     width: 30rem;
     margin-bottom: 1rem;

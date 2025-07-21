@@ -1,7 +1,9 @@
 .post-form-container{
-    height: 25rem;
-    width: 30rem;
-    border: 1px solid black;
+    height: 35rem;
+    width: 40rem;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #646cff;
     margin: 0 auto;
     padding: 10px;
+    margin-top: 20px;
 }

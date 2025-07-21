@@ -33,12 +33,18 @@ export default function CreatePost(){
 
     return(
         <div className="post-form-container">
+            <h1>Create New Post</h1>
+            <br />
             <form>
                 <label htmlFor="content">Content: </label>
-                <textarea name="content" id="content" rows={10} cols={35} placeholder="Enter Your Thought" value={content} onChange={handleChange}></textarea>
+                <textarea name="content" id="content" rows={10} cols={55} placeholder="Enter Your Thought" value={content} onChange={handleChange}></textarea>
                 <br />
-                <button onClick={handleSubmit}>Post</button>
-                <Link to="/home"><button>Home</button></Link>
+                <br />
+                <br />
+                <div style={{width:"40%",display:"flex", justifyContent:"space-around", alignItems:"center"}}>
+                    <button onClick={handleSubmit}>Post</button>
+                    <Link to="/home"><button>Home</button></Link>
+                </div>
             </form>
         </div>
     )

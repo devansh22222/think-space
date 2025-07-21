@@ -53,7 +53,7 @@ export default function Home(){
                 <div className="home-btns">
                     <Link to="/"><button>Logout</button></Link> 
                     <Link to="/createPost"><button><i class="fa-solid fa-plus"></i> Create Post</button></Link>
-                    <div style={{display:"flex", textDecoration:"none", }}><Link to="/profile" ><i class="fa-solid fa-user" ></i><p style={{margin:"0", padding:"0", boxSizing:"border-box"}}>{userName}</p></Link></div>
+                    <div style={{display:"flex", textDecoration:"none", }}><Link to="/profile" style={{textDecoration:"none", color:"black"}}><i class="fa-solid fa-user" style={{marginLeft:"20px"}}></i><p style={{margin:"0", padding:"0", boxSizing:"border-box"}}>{userName}</p></Link></div>
                 </div>
             </div>
             
