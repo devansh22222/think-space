@@ -13,7 +13,7 @@ function App() {
 
 
   return (
-    <>
+    <div className='app-container'>
     <Routes>
       <Route path='/' element={<SignUp/>}/>
       <Route path='/home' element={<Home/>}/>
@@ -22,7 +22,7 @@ function App() {
       <Route path="/profile" element={<Profile/>}/>
       <Route path='/edit/:id' element={<Edit/>}/>
     </Routes> 
-    </>
+    </div>
   )
 }
 

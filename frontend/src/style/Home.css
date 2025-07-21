@@ -1,7 +1,33 @@
-.thought-card{
-    height: 12rem;
-    width: 30rem;
+.home-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.nav-bar{
+    height: 5rem;
+    width: 90%;
+    border-bottom: 1px solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.home-btns{
+    height: 100%;
+    width: 25rem;
     border: 1px solid black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.thought-card{
+    height: 18rem;
+    width: 30rem;
     margin-bottom: 1rem;
     padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px #646cff;
 }

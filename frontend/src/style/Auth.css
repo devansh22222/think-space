@@ -1,0 +1,49 @@
+.auth-page{
+    height: 95vh;
+    width: 95vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.auth-form-container{
+    height: 28rem;
+    width: 25rem;
+    border: 1px solid white;
+    box-shadow: 0px 0px 10px #646cff;
+    border-radius: 5px;
+    margin: 0 auto;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.inputs{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputs input{
+    height: 2rem;
+    width: 12rem;
+    border-radius: 8px ;
+}
+
+label{
+    display: inline-block;
+    width: 120px;
+}
+
+.auth-btns{
+    margin-top: 20px;
+    height: 6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}

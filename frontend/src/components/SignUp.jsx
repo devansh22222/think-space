@@ -1,5 +1,5 @@
 import { useState } from "react"
-import "../style/SignUp.css"
+import "../style/Auth.css"
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -51,20 +51,32 @@ export default function SignUp(){
 
 
     return (
-        <div className="signUp-form-container">
-            <form >
-                <label htmlFor="name">Name: </label>
-                <input type="text" placeholder="Enter Name" id="name" name="name" value={data.name} onChange={handleChange}/>
-                <br />
-                <label htmlFor="email">Email: </label>
-                <input type="email" placeholder="Enter Email" id="email" name="email" value={data.email} onChange={handleChange}/>
-                <br />
-                <label htmlFor="password">Password: </label>
-                <input type="password" placeholder="Enter Password" id="password" name="password" value={data.password} onChange={handleChange}/>
-                <br />
-                <button onClick={handleSubmit}>Sign Up</button>
-                <Link to="/login"><button>Already a User?</button></Link>
+        <div className="auth-page">
+            <div className="auth-form-container">
+                <form >
+                    <h1 style={{textAlign:"center"}}>Sign up</h1>
+                    <div className="inputs">
+                        <label htmlFor="name">Name: </label>
+                        <input type="text" placeholder="Enter Name" id="name" name="name" value={data.name} onChange={handleChange}/>
+                    </div>
+                    <br />
+                    <div className="inputs">
+                        <label htmlFor="email">Email: </label>
+                        <input type="email" placeholder="Enter Email" id="email" name="email" value={data.email} onChange={handleChange}/>
+                    </div>
+                    <br />
+                    <div className="inputs">
+                        <label htmlFor="password">Password: </label>
+                        <input type="password" placeholder="Enter Password" id="password" name="password" value={data.password} onChange={handleChange}/>
+                    </div>
+                    <br />
+
+                    <div className="auth-btns">
+                    <button onClick={handleSubmit}>Sign Up</button>
+                    <Link to="/login"><button>Already a User?</button></Link>
+                    </div>
             </form>
+            </div>
         </div>
         
     )

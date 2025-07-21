@@ -11,8 +11,17 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
 
-
+body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -26,9 +35,23 @@ button {
 button:hover {
   border-color: #646cff;
 }
+input{
+  border: 1px solid transparent;
+  box-shadow: 1px 1px 4px #646cff;
+  padding: 5px;
+}
+input:hover{
+  border: 1px solid #646cff;
+}
+input:focus{
+  outline: 1px solid #646cff;
+}
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+button:active{
+  outline: 1px solid #646cff;
 }
 
 @media (prefers-color-scheme: light) {

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import "../style/Login.css"
+import "../style/Auth.css"
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -54,18 +54,29 @@ export default function Login(){
 
 
     return (
-        <div className="login-form-container">
-            <form>
-                <label htmlFor="email">Email: </label>
-                <input type="text" placeholder="Enter email" name="email" id="email" value={loginData.email} onChange={handleChange}/>
-                <br />
-                <label htmlFor="password">Password: </label>
-                <input type="text" placeholder="Enter Password" name="password" id="password" value={loginData.password} onChange={handleChange}/>
-                <br />
-                <button onClick={handleSubmit}>Login</button>
-                <Link to="/"><button>New User?</button></Link>
+        <div className="auth-page">
+            <div className="auth-form-container">
+                <form>
+                    <h1 style={{textAlign:"center"}}>Login</h1>
+                    <br />
+                    <div className="inputs">
+                        <label htmlFor="email">Email: </label>
+                        <input type="text" placeholder="Enter email" name="email" id="email" value={loginData.email} onChange={handleChange}/>
+                    </div>
+                    <br />
+                    <div className="inputs">
+                        <label htmlFor="password">Password: </label>
+                        <input type="text" placeholder="Enter Password" name="password" id="password" value={loginData.password} onChange={handleChange}/>
+                    </div>
+                    <br />
+
+                    <div className="auth-btns">
+                        <button onClick={handleSubmit}>Login</button>
+                        <Link to="/"><button>New User?</button></Link>
+                    </div>
+                </form>
                 
-            </form>
+            </div>
         </div>
     )
 }
